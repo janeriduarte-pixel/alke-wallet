@@ -118,7 +118,7 @@ print(cliente_prueba.nombre, cliente_prueba.email, cliente_prueba.telefono)
 **Resultado esperado:** Se crea un nuevo usuario y su Cliente asociado (relación Uno a Uno), sin error.
 **Resultado obtenido:** ✅
 
-![Prueba CREATE](capturas/01-_create-cliente.png)
+![Prueba CREATE](capturas/01-create-cliente.png)
 
 ### 2. `READ` con `filter()`, `values()` y `exclude()`
 
@@ -129,7 +129,7 @@ Cuenta.objects.filter(saldo__gte=1000)
 **Resultado esperado:** Devuelve únicamente las cuentas con saldo mayor o igual a 1000.
 **Resultado obtenido:** ✅
 
-![Prueba filter](capturas/02-_filter.png)
+![Prueba filter](capturas/02-filter.png)
 
 ```python
 Cuenta.objects.values('cliente__nombre', 'tipo', 'saldo')
@@ -138,7 +138,7 @@ Cuenta.objects.values('cliente__nombre', 'tipo', 'saldo')
 **Resultado esperado:** Muestra los nombres de los clientes, el tipo de cuenta y los saldos de estas cuentas.
 **Resultado obtenido:** ✅
 
-![Prueba values](capturas/02a-_values.png)
+![Prueba values](capturas/02a-values.png)
 
 ```python
 Cuenta.objects.exclude(tipo="CORRIENTE")
@@ -147,7 +147,7 @@ Cuenta.objects.exclude(tipo="CORRIENTE")
 **Resultado esperado:** Devuelve únicamente las cuentas que NO son de tipo CORRIENTE (es decir, las de AHORRO).
 **Resultado obtenido:** ✅
 
-![Prueba exclude](capturas/02b-_exlude.png)
+![Prueba exclude](capturas/02b-exclude.png)
 
 ### 3. `UPDATE`: Actualizar el saldo de una Cuenta
 
@@ -163,7 +163,7 @@ print(Cuenta.objects.get(pk=cuenta_carlos.pk).saldo)   # Después: 900.00
 **Resultado esperado:** El saldo cambia de su valor original a 900.00 y persiste en la base de datos.
 **Resultado obtenido:** ✅
 
-![Prueba UPDATE](capturas/03-_update.png)
+![Prueba UPDATE](capturas/03-update.png)
 
 ### 4. Consulta avanzada con `annotate()` (Count)
 
@@ -174,7 +174,7 @@ Cliente.objects.annotate(total_cuentas=Count('cuentas'))
 **Resultado esperado:** Cada cliente aparece anotado con el número de cuentas que posee.
 **Resultado obtenido:** ✅
 
-![Prueba annotate Count](capturas/04-anotate__Count_.png)
+![Prueba annotate Count](capturas/04-annotate-count.png)
 
 ### 5. Consulta avanzada con `annotate()` (Sum)
 
@@ -185,7 +185,7 @@ Cuenta.objects.annotate(total_movido=Sum('transacciones__monto')).values('client
 **Resultado esperado:** Cada cuenta muestra la suma total de sus transacciones (o `None` si no tiene ninguna).
 **Resultado obtenido:** ✅
 
-![Prueba annotate Sum](capturas/05-annotate.png)
+![Prueba annotate Sum](capturas/05-annotate-sum.png)
 
 ### 6. Relación Muchos a Muchos (Transacción ↔ Etiqueta)
 
@@ -198,7 +198,7 @@ transaccion_deposito.etiquetas.all()
 **Resultado esperado:** La transacción de depósito aparece asociada a las etiquetas creadas previamente.
 **Resultado obtenido:** ✅
 
-![Relación Muchos a Muchos](capturas/06-_relacion_mucho_a_muchos_transaccion.png)
+![Relación Muchos a Muchos](capturas/06-relacion-m2m.png)
 
 ### 7. Consulta SQL personalizada con `raw()`
 
@@ -209,7 +209,7 @@ list(Cliente.objects.raw("SELECT * FROM core_cliente WHERE telefono IS NOT NULL"
 **Resultado esperado:** Devuelve solo los clientes que tienen un teléfono registrado.
 **Resultado obtenido:** ✅
 
-![Prueba raw()](capturas/07-_raw.png)
+![Prueba raw()](capturas/07-raw.png)
 
 ### 8. Consulta con cursor directo
 
@@ -220,9 +220,9 @@ cursor.fetchone()
 ```
 
 **Resultado esperado:** Devuelve el conteo total de registros en la tabla `core_cuenta`.
-**Resultado obtenido:** ✅
+**Resultado obtenido:** ✅ `(3,)`
 
-![Cursor directo](capturas/08-consulta_cursor_directo.png)
+![Cursor directo](capturas/08-cursor-directo.png)
 
 ### 9. `DELETE()`: Eliminar una Transacción
 
@@ -234,6 +234,6 @@ Transaccion.objects.all()
 ```
 
 **Resultado esperado:** El registro de tipo RETIRO se elimina y ya no aparece en las consultas posteriores.
-**Resultado obtenido:** ✅ 
+**Resultado obtenido:** ✅ `(1, {'core.Transaccion': 1})` — Solo queda `<Transaccion: DEPOSITO - 300.00>`
 
 ![Prueba DELETE](capturas/09-delete.png)
