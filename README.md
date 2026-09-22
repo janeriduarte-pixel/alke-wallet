@@ -49,6 +49,7 @@ alke-wallet/
 - Panel de administración con `django.contrib.admin` (modelos registrados con `list_display` y `search_fields`).
 - Archivos estáticos servidos con `django.contrib.staticfiles`.
 - Formularios protegidos con `{% csrf_token %}`, incluyendo el logout (implementado como `POST`, no `GET`).
+- Aislamiento de datos por usuario: cada cliente solo puede ver y gestionar sus propias cuentas (las vistas filtran por `cliente__usuario=request.user`), evitando que un usuario acceda a información de otro aunque conozca el ID de la cuenta en la URL.
 - Frontend estilizado con **Bootstrap 5** + **Bootstrap Icons** (vía CDN) y CSS propio (`static/css/estilos.css`) con paleta bancaria (azul marino + verde acento).
 
 ## 📋 Instrucciones para ejecutar el proyecto localmente
